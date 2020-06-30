@@ -10,6 +10,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _people = 0;
+  String _infoText = "Pode Entrar!";
+
+  void _changePeople(int delta) {
+    setState(() {
+      _people += delta;
+
+      if (_people < 0) {
+        _infoText = "Tem alguem ai?";
+      } else if (_people > 5) {
+        _infoText = "Lotado!";
+      } else {
+        _infoText = "Pode Entrar!";
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -23,7 +40,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Pessoas: 0",
+              "Pessoas: $_people",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -44,7 +61,10 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       onPressed: () {
-                        debugPrint("+1");
+                        _people++;
+                        _changePeople(1);
+                        debugPrint("+1 Pessoa");
+                        debugPrint("Pessoa = $_people");
                       }),
                 ),
                 Padding(
@@ -59,13 +79,15 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       onPressed: () {
-                        debugPrint("-1");
+                        _changePeople(-1);
+                        debugPrint("-1 Pessoa");
+                        debugPrint("Pessoa = $_people");
                       }),
                 ),
               ],
             ),
             Text(
-              "Pode Entrar!",
+              _infoText,
               style: TextStyle(
                   color: Colors.white,
                   fontStyle: FontStyle.italic,
